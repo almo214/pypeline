@@ -1,3 +1,3 @@
-# Example Package Readme
+git config # pypline Package
 
-This is an example package markdown test.
+Creator's preference for preprocesing data. Standardized machine learning algorithm implementations to reduce repetitive code creation.

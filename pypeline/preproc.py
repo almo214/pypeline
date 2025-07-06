@@ -3,12 +3,13 @@ import numpy as np
 import pandas as pd
 
 
-def scale_and_impute(x, impute_method: str = "mean", skip: list= None):
+def scale_and_impute(x, impute_method: str = "mean", skip: list= None, drop_nan: bool= True):
     """Impute missing and normalize all x values of a pandas DataFrame or series object."""
     new_x = x.copy()
 
     #Replace any string NaNs with true numpy NaN
     new_x = new_x.replace('NaN', np.nan)
+
 
 
     #Establish names of numeric columns for imputation.
@@ -19,7 +20,9 @@ def scale_and_impute(x, impute_method: str = "mean", skip: list= None):
         minx = new_x.min()
         new_x = (new_x - minx) / (maxx- minx)
 
-    else:
+    else:    
+        if drop_nan:
+            new_x.dropna(axis=1, how='all', inplace=True)
         numeric_cols = list(new_x.select_dtypes(include=[np.number]).columns)
         new_x[numeric_cols] = impute( new_x[numeric_cols], impute_method)
         #Remove any columns the user wants to skip imputation on
